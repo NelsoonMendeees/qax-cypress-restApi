@@ -1,0 +1,58 @@
+name: CI/CD Pipeline for API with Cypress
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: --bind_ip_all
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20' # Defina a versão do Node.js que você está utilizando
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Start the API
+      run: npm run dev &
+      env:
+        MONGO_URI: ${{ secrets.URI_CONNECT }}
+        MONGO_DATABASE: ${{ secrets.DATABASE }}
+        MONGO_COLLECTION: ${{ secrets.COLLECTION }}
+
+    - name: Wait for API to be ready
+      run: npx wait-on http://localhost:3000/api/livros
+
+    - name: Run Cypress tests
+      run: npx cypress run
+      env:
+        MONGO_URI: ${{ secrets.URI_CONNECT }}
+        MONGO_DATABASE: ${{ secrets.DATABASE }}
+        MONGO_COLLECTION: ${{ secrets.COLLECTION }}
+
+    - name: Upload Cypress screenshots and videos on failure
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-artifacts
+        path: |
+          cypress/screenshots
+          cypress/videos

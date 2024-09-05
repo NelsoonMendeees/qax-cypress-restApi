@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,12 +31,21 @@ jobs:
 
     - name: Start the API
       run: npm run dev &
+      env:
+          MONGO_URI: ${{ secrets.URI }}
+          MONGO_DATABASE: ${{ secrets.DATABASE }}
+          MONGO_COLLECTION: ${{ secrest.COLLECTION }}
+
 
     - name: Wait for API to be ready
       run: npx wait-on http://localhost:3000/api/livros
 
     - name: Run Cypress tests
       run: npx cypress run
+      env:
+          MONGO_URI: ${{ secrets.URI }}
+          MONGO_DATABASE: ${{ secrets.DATABASE }}
+          MONGO_COLLECTION: ${{ secrest.COLLECTION }}
 
     - name: Upload Cypress screenshots and videos on failure
       if: failure()

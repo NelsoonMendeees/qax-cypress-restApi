@@ -34,7 +34,7 @@ jobs:
       env:
           MONGO_URI: ${{ secrets.URI }}
           MONGO_DATABASE: ${{ secrets.DATABASE }}
-          MONGO_COLLECTION: ${{ secrest.COLLECTION }}
+          MONGO_COLLECTION: ${{ secrets.COLLECTION }}
 
 
     - name: Wait for API to be ready
@@ -45,7 +45,7 @@ jobs:
       env:
           MONGO_URI: ${{ secrets.URI }}
           MONGO_DATABASE: ${{ secrets.DATABASE }}
-          MONGO_COLLECTION: ${{ secrest.COLLECTION }}
+          MONGO_COLLECTION: ${{ secrets.COLLECTION }}
 
     - name: Upload Cypress screenshots and videos on failure
       if: failure()

@@ -29,6 +29,11 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Debug MONGO_URI
+      run: echo "MONGO_URI is set"
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+
     - name: Start the API
       run: npm run dev &
       env:

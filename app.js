@@ -8,9 +8,17 @@ dotenv.config();
 
 const app = express();
 const port = 5000;
+
+const mongoUri = process.env.MONGO_URI;
+
+if (!mongoUri) {
+  console.error("A variável de ambiente MONGO_URI não está definida.");
+  process.exit(1);
+}
+
 // Conexão com o MongoDB
 mongoose
-  .connect(process.env.MONGO_URI, {})
+  .connect(mongoUri, {})
   .then(() => console.log("Conectado ao MongoDB"))
   .catch((err) => console.error("Erro ao conectar ao MongoDB:", err));
 

@@ -41,7 +41,7 @@ jobs:
       run: npx wait-on http://localhost:5000/api/livros
 
     - name: Run Cypress tests
-      uses: cypress-io/github-action@v5
+      uses: cypress-io/github-action@v6
 
     - name: Upload Cypress screenshots and videos on failure
       if: failure()

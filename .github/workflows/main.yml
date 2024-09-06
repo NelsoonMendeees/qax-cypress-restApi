@@ -43,7 +43,7 @@ jobs:
       run: npm run dev &
 
     - name: Wait for API to be ready
-      run: npx wait-on http://localhost:3000/api/livros
+      run: npx wait-on http://localhost:5000/api/livros
 
     - name: Run Cypress tests
       run: npx cypress run

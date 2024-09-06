@@ -24,20 +24,15 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '20.17.0' # Defina a versão do Node.js que você está utilizando
 
     - name: Install dependencies
       run: npm install
-
-    - name: Debug MONGO_URI
-      run: echo "MONGO_URI is set"
-      env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
 
     - name: Start the API
       run: npm run dev &
